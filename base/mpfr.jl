@@ -11,13 +11,13 @@ import
         bessely0, bessely1, ceil, convert, copysign, deg2rad,
         exp, exp2, exponent, factorial, floor, hypot, isinteger, iround,
         isfinite, isinf, isnan, ldexp, log, log2, log10, max, min, mod, modf,
-        nextfloat, prevfloat, promote_rule, rad2deg, rem, round, show,
+        nextfloat, one, prevfloat, promote_rule, rad2deg, rem, round, show,
         showcompact, sum, sqrt, string, print, trunc, precision, exp10, expm1,
         gamma, lgamma, digamma, erf, erfc, zeta, log1p, airyai, iceil, ifloor,
         itrunc, eps, signbit, sin, cos, tan, sec, csc, cot, acos, asin, atan,
         cosh, sinh, tanh, sech, csch, coth, acosh, asinh, atanh, atan2,
         serialize, deserialize, inf, nan, hash, cbrt, typemax, typemin,
-        realmin, realmax, get_rounding, set_rounding, maxintfloat, widen
+        realmin, realmax, get_rounding, set_rounding, maxintfloat, widen, zero
 
 import Base.Math.lgamma_r
 
@@ -126,6 +126,11 @@ promote_rule{T<:FloatingPoint}(::Type{BigInt},::Type{T}) = BigFloat
 promote_rule{T<:FloatingPoint}(::Type{BigFloat},::Type{T}) = BigFloat
 
 rationalize(x::BigFloat; tol::Real=eps(x)) = rationalize(BigInt, x, tol=tol)
+
+zero(::Type{BigInt}) = BigInt(0)
+zero(x::BigInt) = BigInt(0)
+one(::Type{BigInt}) = BigInt(1)
+one(x::BigInt) = BigInt(1)
 
 # serialization
 
