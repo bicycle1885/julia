@@ -324,3 +324,6 @@ any(x::Tuple{}) = false
 any(x::Tuple{Bool}) = x[1]
 any(x::Tuple{Bool, Bool}) = x[1]|x[2]
 any(x::Tuple{Bool, Bool, Bool}) = x[1]|x[2]|x[3]
+
+in(x, t::Tuple{}) = false
+in(x, t::Tuple)   = (@_inline_meta; x == t[1] || in(x, tail(t)))
