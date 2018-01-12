@@ -129,9 +129,6 @@ julia> Int('\x7f')
 
 julia> Int('\177')
 127
-
-julia> Int('\xff')
-255
 ```
 
 You can do comparisons and a limited amount of arithmetic with `Char` values:
