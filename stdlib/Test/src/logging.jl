@@ -188,23 +188,10 @@ function match_logs(f, patterns...; match_mode::Symbol=:all, kwargs...)
     didmatch,logs,value
 end
 
-# TODO: Use a version of parse_level from stdlib/Logging, when it exists.
-function parse_level(level::Symbol)
-    if      level == :belowminlevel  return  Logging.BelowMinLevel
-    elseif  level == :debug          return  Logging.Debug
-    elseif  level == :info           return  Logging.Info
-    elseif  level == :warn           return  Logging.Warn
-    elseif  level == :error          return  Logging.Error
-    elseif  level == :abovemaxlevel  return  Logging.AboveMaxLevel
-    else
-        throw(ArgumentError("Unknown log level $level"))
-    end
-end
-
 logfield_contains(a, b) = a == b
 logfield_contains(a, r::Regex) = occursin(r, a)
 logfield_contains(a::Symbol, r::Regex) = occursin(r, String(a))
-logfield_contains(a::LogLevel, b::Symbol) = a == parse_level(b)
+logfield_contains(a::LogLevel, b::Symbol) = a == Base.CoreLogging.parse_level(b)
 logfield_contains(a, b::Ignored) = true
 
 function occursin(pattern::Tuple, r::LogRecord)

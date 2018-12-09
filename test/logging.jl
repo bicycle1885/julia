@@ -155,6 +155,7 @@ end
             @error "d"
         end
 
+        # Specify by a LogLevel value
         disable_logging(BelowMinLevel)
         @test_logs (Debug, "a") (Info, "b") (Warn, "c") (Error, "d") min_level=Debug  log_each_level()
 
@@ -168,6 +169,22 @@ end
         @test_logs (Error, "d") min_level=Debug  log_each_level()
 
         disable_logging(Error)
+        @test_logs log_each_level()
+
+        # Specify by a symbolic name
+        disable_logging(:belowminlevel)
+        @test_logs (Debug, "a") (Info, "b") (Warn, "c") (Error, "d") min_level=Debug  log_each_level()
+
+        disable_logging(:debug)
+        @test_logs (Info, "b") (Warn, "c") (Error, "d") min_level=Debug  log_each_level()
+
+        disable_logging(:info)
+        @test_logs (Warn, "c") (Error, "d") min_level=Debug  log_each_level()
+
+        disable_logging(:warn)
+        @test_logs (Error, "d") min_level=Debug  log_each_level()
+
+        disable_logging(:error)
         @test_logs log_each_level()
 
         # Reset to default

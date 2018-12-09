@@ -407,11 +407,26 @@ end
 
 Disable all log messages at log levels equal to or less than `level`.  This is
 a *global* setting, intended to make debug logging extremely cheap when
-disabled.
+disabled. The `level` argument may be specified by either a value of the
+`LogLevel` type or a symbolic name (e.g. `:warn`).
 """
 function disable_logging(level::LogLevel)
     _min_enabled_level[] = level + 1
 end
+
+function parse_level(level::Symbol)
+    if     level == :belowminlevel return BelowMinLevel
+    elseif level == :debug         return Debug
+    elseif level == :info          return Info
+    elseif level == :warn          return Warn
+    elseif level == :error         return Error
+    elseif level == :abovemaxlevel return AboveMaxLevel
+    else
+        throw(ArgumentError("Unknown log level :$level"))
+    end
+end
+
+disable_logging(level::Symbol) = disable_logging(parse_level(level))
 
 let _debug_groups = Symbol[],
     _debug_str::String = ""
